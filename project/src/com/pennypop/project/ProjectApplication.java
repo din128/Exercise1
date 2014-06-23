@@ -28,7 +28,7 @@ public class ProjectApplication implements ApplicationListener {
 
 	private Screen screen;
 	private final static String url = "http://api.openweathermap.org/data/2.5/weather?q=San%20Francisco,US";
-
+	
 	public static void main(String[] args) {
 		new LwjglApplication(new ProjectApplication(), "PennyPop", 1280, 720,
 				true);
@@ -86,10 +86,9 @@ public class ProjectApplication implements ApplicationListener {
 			while ((output = rd.readLine()) != null) {
 				sb.append(output);
 			}
-			
-			System.out.println(sb.toString()); // test
-			
+			System.out.println(sb.toString());
 			JSONObject jsonRes = new JSONObject(sb.toString());
+			
 			return jsonRes;		
 			
 		} catch (IOException e) {
