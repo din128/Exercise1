@@ -48,6 +48,11 @@ public class MainScreen implements Screen {
 		createAPIButton();	
 		stage.addActor(UIViews);
 		
+		// Create API results
+		APIResults = new Table();
+		APIResults.setFillParent(true);
+		APIResults.right();		
+		stage.addActor(APIResults);
 	}
 
 	@Override
@@ -120,13 +125,6 @@ public class MainScreen implements Screen {
 		apiImage.addListener(new ClickListener() {
 		    @Override
 		    public void clicked(InputEvent event, float x, float y) {
-		    	// Create API results
-				APIResults = new Table();
-				APIResults.reset();
-				APIResults.setFillParent(true);
-				APIResults.right();		
-				stage.addActor(APIResults);
-		    	
 				try {
 					Color brown = new Color(0.5f,0.4f,0,1);
 					LabelStyle brownStyle = new LabelStyle (pennyFont, brown);
