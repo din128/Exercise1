@@ -1,19 +1,10 @@
 package com.pennypop.project;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.backends.openal.Wav.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -40,7 +31,7 @@ public class MainScreen implements Screen {
 	private Table APIResults;
 	private Texture apiTexture;
 	private Texture sfxTexture;
-	private final static String url = "http://api.openweathermap.org/data/2.5/weather?q=San%20Francisco,US";
+	
 	
 	public MainScreen() {
 		spriteBatch = new SpriteBatch();
@@ -116,7 +107,7 @@ public class MainScreen implements Screen {
 		sfxButton.addListener(new ClickListener() {
 		    @Override
 		    public void clicked(InputEvent event, float x, float y) {
-		    	playSFX();
+		    	ProjectApplication.playSFX();
 		    }
 		});
 	}
@@ -143,7 +134,7 @@ public class MainScreen implements Screen {
 					LabelStyle redStyle = new LabelStyle (pennyFont, Color.RED);
 					
 					// Extract information from JSON
-					JSONObject jsonRes = getAPIResults();
+					JSONObject jsonRes = ProjectApplication.getAPIResults();
 					JSONObject clouds = jsonRes.getJSONObject("clouds");
 					JSONObject wind = jsonRes.getJSONObject("wind");
 					JSONObject main = jsonRes.getJSONObject("main");
@@ -194,36 +185,5 @@ public class MainScreen implements Screen {
 				}
 		    }
 		});
-	}
-	
-	private static JSONObject getAPIResults() {	 
-		try {
-			HttpClient client = HttpClientBuilder.create().build();
-			HttpGet request = new HttpGet(url);
-			request.setHeader("Content-Type", "application/json");
-			
-			HttpResponse response = client.execute(request);
-			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			StringBuilder sb = new StringBuilder();
-			String output;
-			while ((output = rd.readLine()) != null) {
-				sb.append(output);
-			}
-			System.out.println(sb.toString());
-			JSONObject jsonRes = new JSONObject(sb.toString());
-			
-			return jsonRes;		
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}	
-	
-	private static void playSFX() {
-		Sound sound = (Sound) Gdx.audio.newSound(Gdx.files.internal("assets/button_click.wav"));
-    	sound.play(1.0f);
 	}
 }
